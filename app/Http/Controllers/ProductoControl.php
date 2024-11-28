@@ -9,6 +9,11 @@ use Illuminate\Queue\Console\RetryCommand;
 
 class ProductoControl extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -88,6 +93,7 @@ class ProductoControl extends Controller
         $producto->descripcion = $request->get('descripcion');
         $producto->cantidad = $request->get('cantidad');
         $producto->precio = $request->get('precio');
+
 
         $producto->save();
 

@@ -17,14 +17,18 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('productos', 'App\Http\Controllers\ProductoControl');
-
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
     'verified'
 ])->group(function () {
     Route::get('/dashboard', function () {
-        return view('dashboard');
+        return redirect()->route('productos.index');
     })->name('dashboard');
+
+    Route::resource('productos', 'App\Http\Controllers\ProductoControl');
 });
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
