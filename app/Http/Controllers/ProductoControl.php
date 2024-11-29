@@ -44,10 +44,11 @@ class ProductoControl extends Controller
     public function store(Request $request)
     {
         $productos = new Producto();
-        $productos->codigo = $request->get('codigo');
-        $productos->descripcion = $request->get('descripcion');
+        $productos->placa = $request->get('placa');
+        $productos->tipo_material = $request->get('tipo_material');
         $productos->cantidad = $request->get('cantidad');
         $productos->precio = $request->get('precio');
+        $productos->comprador = $request->get('comprador');
 
         $productos->save();
 
@@ -89,10 +90,11 @@ class ProductoControl extends Controller
     {
         $producto = Producto::find($id);
 
-        $producto->codigo = $request->get('codigo');
-        $producto->descripcion = $request->get('descripcion');
+        $producto->placa = $request->get('placa');
+        $producto->tipo_material = $request->get('tipo_material');
         $producto->cantidad = $request->get('cantidad');
         $producto->precio = $request->get('precio');
+        $producto->comprador = $request->get('comprador');
 
 
         $producto->save();

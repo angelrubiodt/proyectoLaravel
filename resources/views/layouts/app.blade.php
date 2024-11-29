@@ -9,6 +9,9 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
+    <!-- Favicon -->
+    <link rel="icon" href="{{ asset('images/logoMinaSanPedro.png') }}" type="image/png" sizes="32x32" />
+
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
 

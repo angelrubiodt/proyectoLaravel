@@ -289,7 +289,6 @@ return [
     | Here we can modify the sidebar/top navigation of the admin panel.
     |
     | For detailed instructions you can look here:
-    | https://github.com/jeroennoten/Laravel-AdminLTE/wiki/Menu-Configuration
     |
     */
 

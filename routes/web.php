@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ContactoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,3 +33,5 @@ Route::middleware([
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::post('/contacto', [ContactoController::class, 'store'])->name('contacto.store');

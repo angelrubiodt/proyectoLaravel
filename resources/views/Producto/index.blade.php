@@ -12,23 +12,23 @@
             <h2 class="m-0">Gestión de Productos</h2>
             <div class="d-flex align-items-center">
                 <span class="me-3">Bienvenido, {{ Auth::user()->name }}</span>
-                <form method="POST" action="{{ route('logout') }}" class="m-0">
+                <form id="logout-form" method="POST" action="{{ route('logout') }}" class="m-0">
                     @csrf
-                    <button type="submit" class="btn btn-danger">Cerrar Sesión</button>
+                    <button type="button" class="btn btn-danger" id="logout-button">Cerrar Sesión</button>
                 </form>
             </div>
         </div>
 
         <div class="mb-3">
-            <a href="productos/create" class="btn btn-primary">CREAR</a>
+            <a href="{{ route('productos.create') }}" class="btn btn-primary">CREAR</a>
         </div>
 
         <table id="productos" class="table table-striped shadow-lg" style="width:100%">
             <thead class="bg-primary text-white">
                 <tr>
                     <th scope="col">ID</th>
-                    <th scope="col">Código</th>
-                    <th scope="col">Descripción</th>
+                    <th scope="col">Placa</th>
+                    <th scope="col">Tipo de Material</th>
                     <th scope="col">Cantidad</th>
                     <th scope="col">Precios</th>
                     <th scope="col">Comprador</th>
@@ -39,8 +39,8 @@
                 @foreach($productos as $producto)
                 <tr>
                     <td>{{$producto->id}}</td>
-                    <td>{{$producto->codigo}}</td>
-                    <td>{{$producto->descripcion}}</td>
+                    <td>{{$producto->placa}}</td>
+                    <td>{{$producto->tipo_material}}</td>
                     <td>{{$producto->cantidad}}</td>
                     <td>{{$producto->precio}}</td>
                     <td>{{$producto->comprador}}</td>
@@ -62,13 +62,30 @@
 
 @section('js')
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
 <script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
     new DataTable('#productos');
+
+    $('#logout-button').on('click', function(e) {
+        e.preventDefault();
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: "¡Quieres cerrar sesión!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, cerrar sesión',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $('#logout-form').submit(); // Envía el formulario de cierre de sesión
+            }
+        });
+    });
 
     $('.formEliminar').submit(function(e){
         e.preventDefault();

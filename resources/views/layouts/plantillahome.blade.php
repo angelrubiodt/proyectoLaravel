@@ -15,7 +15,7 @@
     <!-- Responsive-->
     <link rel="stylesheet" href="{{ asset('css/responsive.css') }}">
     <!-- fevicon -->
-    <link rel="icon" href="{{ asset('images/fevicon.png') }}" type="image/gif" />
+    <link rel="icon" href="{{ asset('images/logoMinaSanPedro.png') }}" sizes="256x256" type="image/png" />
     <!-- Scrollbar Custom CSS -->
     <link rel="stylesheet" href="{{ asset('css/jquery.mCustomScrollbar.min.css') }}">
     <!-- Tweaks for older IEs-->
