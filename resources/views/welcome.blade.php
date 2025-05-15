@@ -1,5 +1,31 @@
 @extends('layouts.plantillahome')
 @section('content')
+<style>
+    .transfot_form {
+        border-radius: 20px;
+        border: 1px solid #ccc;
+        padding: 10px 15px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+    }
+    .transfot_form:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 8px rgba(0,123,255,0.3);
+    }
+    .get_now {
+        border-radius: 20px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        transition: all 0.3s ease;
+    }
+    .get_now:hover {
+        background-color: #0056b3;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    }
+</style>
       <!-- loader  -->
         <div class="loader_bg">
             <div class="loader"><img src="images/loading.gif" alt="#" /></div>
@@ -7,7 +33,7 @@
         <!-- end loader -->
         <div id="mySidepanel" class="sidepanel">
             <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
-            <a href="index.html">Inicio </a>
+            <a href="{{ url('/') }}">Inicio </a>
             <a href="#about">Sobre nosotros</a>
             <a href="#service">Services  </a>
             <a href="#contact">Contact</a>
@@ -75,25 +101,26 @@
                                     </div>
                                     </div>
                                     <div class="col-md-6">
-                                    <form class="transfot">
+                                    <form class="transfot" action="{{ route('cotizacion.store') }}" method="POST">
+                                        @csrf
                                         <div class="col-md-12">
                                             <span>Servicios Profesionales</span>
                                             <h3>Obtén tu cotización</h3>
                                         </div>
                                         <div class="col-md-12">
-                                            <input class="transfot_form" placeholder="Ubicación" type="text" name="Location">
+                                            <input class="transfot_form" placeholder="Origen" type="text" name="origen" required>
                                         </div>
                                         <div class="col-md-12">
-                                            <input class="transfot_form" placeholder="A destino" type="text" name="To destination">
+                                            <input class="transfot_form" placeholder="Destino" type="text" name="destino" required>
                                         </div>
                                         <div class="col-md-12">
-                                            <input class="transfot_form" placeholder="Correo Electrónico" type="text" name="Email">
+                                            <input class="transfot_form" placeholder="Correo electrónico" type="email" name="email" required>
                                         </div>
                                         <div class="col-md-12">
-                                            <input class="transfot_form" placeholder="Número de Contacto" type="text" name="Contact Number">
+                                            <input class="transfot_form" placeholder="Teléfono" type="text" name="telefono" required>
                                         </div>
                                         <div class="col-md-12">
-                                            <button class="get_now">Cotizar ahora</button>
+                                            <button class="get_now" type="submit" style="font-size: 0.9em; padding: 8px 15px;">Cotizar ahora</button>
                                         </div>
                                     </form>
                                     </div>
@@ -122,25 +149,26 @@
                                     </div>
                                     </div>
                                     <div class="col-md-6">
-                                    <form class="transfot">
+                                    <form class="transfot" action="{{ route('cotizacion.store') }}" method="POST">
+                                        @csrf
                                         <div class="col-md-12">
                                             <span>Servicios Profesionales</span>
                                             <h3>Obtén tu cotización</h3>
                                         </div>
                                         <div class="col-md-12">
-                                            <input class="transfot_form" placeholder="Ubicación" type="text" name="Location">
+                                            <input class="transfot_form" placeholder="Origen" type="text" name="origen" required>
                                         </div>
                                         <div class="col-md-12">
-                                            <input class="transfot_form" placeholder="A destino" type="text" name="To destination">
+                                            <input class="transfot_form" placeholder="Destino" type="text" name="destino" required>
                                         </div>
                                         <div class="col-md-12">
-                                            <input class="transfot_form" placeholder="Correo Electrónico" type="text" name="Email">
+                                            <input class="transfot_form" placeholder="Correo electrónico" type="email" name="email" required>
                                         </div>
                                         <div class="col-md-12">
-                                            <input class="transfot_form" placeholder="Número de Contacto" type="text" name="Contact Number">
+                                            <input class="transfot_form" placeholder="Teléfono" type="text" name="telefono" required>
                                         </div>
                                         <div class="col-md-12">
-                                            <button class="get_now">Cotizar ahora</button>
+                                            <button class="get_now" type="submit" style="font-size: 0.9em; padding: 8px 15px;">Cotizar ahora</button>
                                         </div>
                                     </form>
                                     </div>
@@ -169,25 +197,26 @@
                                     </div>
                                     </div>
                                     <div class="col-md-6">
-                                    <form class="transfot">
+                                    <form class="transfot" action="{{ route('cotizacion.store') }}" method="POST">
+                                        @csrf
                                         <div class="col-md-12">
                                             <span>Servicios Profesionales</span>
                                             <h3>Obtén tu cotización</h3>
                                         </div>
                                         <div class="col-md-12">
-                                            <input class="transfot_form" placeholder="Ubicación" type="text" name="Location">
+                                            <input class="transfot_form" placeholder="Origen" type="text" name="origen" required>
                                         </div>
                                         <div class="col-md-12">
-                                            <input class="transfot_form" placeholder="A destino" type="text" name="To destination">
+                                            <input class="transfot_form" placeholder="Destino" type="text" name="destino" required>
                                         </div>
                                         <div class="col-md-12">
-                                            <input class="transfot_form" placeholder="Correo Electrónico" type="text" name="Email">
+                                            <input class="transfot_form" placeholder="Correo electrónico" type="email" name="email" required>
                                         </div>
                                         <div class="col-md-12">
-                                            <input class="transfot_form" placeholder="Número de Contacto" type="text" name="Contact Number">
+                                            <input class="transfot_form" placeholder="Teléfono" type="text" name="telefono" required>
                                         </div>
                                         <div class="col-md-12">
-                                            <button class="get_now">Cotizar ahora</button>
+                                            <button class="get_now" type="submit" style="font-size: 0.9em; padding: 8px 15px;">Cotizar ahora</button>
                                         </div>
                                     </form>
                                     </div>

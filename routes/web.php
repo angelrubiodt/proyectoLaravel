@@ -35,3 +35,5 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::post('/contacto', [ContactoController::class, 'store'])->name('contacto.store');
+
+Route::post('/cotizacion', [App\Http\Controllers\CotizacionController::class, 'store'])->name('cotizacion.store');
