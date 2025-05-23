@@ -34,6 +34,7 @@
                                 </span>
                             @enderror
                         </div>
+
                         <div class="form-group mb-3 d-flex align-items-center" style="width: 100%;">
                             <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}
                                 style="border-radius: 4px; border: 1.5px solid #007bff; margin-right: 8px;">

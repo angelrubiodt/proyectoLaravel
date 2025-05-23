@@ -41,11 +41,6 @@
                        <li><a href="#"><i class="fa fa-phone" aria-hidden="true"></i></a>Teléfono :  +57 3233877725</li>
                        <li><a href="#"><i class="fa fa-envelope" aria-hidden="true"></i></a>Email : sanpedro@gmail.com</li>
                     </ul>
-                    <form class="bottom_form">
-                       <h3>Newsletter</h3>
-                       <input class="enter" placeholder="Enter your email" type="text" name="Enter your email">
-                       <button class="sub_btn">subscribe</button>
-                    </form>
                  </div>
                  <div class="col-md-8">
                     <div class="map">

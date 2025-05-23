@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateCotizacionesTable extends Migration
+class CreateContactsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateCotizacionesTable extends Migration
      */
     public function up()
     {
-        Schema::create('cotizaciones', function (Blueprint $table) {
+        Schema::create('contacts', function (Blueprint $table) {
             $table->id();
-            $table->string('ubicacion');
-            $table->string('destino');
-            $table->string('correo_electronico');
-            $table->string('numero_contacto');
+            $table->string('nombre');
+            $table->string('email');
+            $table->string('asunto');
+            $table->text('mensaje');
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ class CreateCotizacionesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('cotizaciones');
+        Schema::dropIfExists('contacts');
     }
 }

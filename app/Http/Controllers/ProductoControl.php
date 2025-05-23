@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use App\Models\Producto;
-use Illuminate\Queue\Console\RetryCommand;
+use Illuminate\Support\Facades\Validator;
 
 class ProductoControl extends Controller
 {
@@ -21,18 +20,18 @@ class ProductoControl extends Controller
      */
     public function index()
     {
-      $productos =  Producto::all();
-        return view('producto.index')->with('productos',$productos);
+        $productos = Producto::latest()->paginate(10);
+        return view('producto.index', compact('productos'));
     }
 
     /**
      * Show the form for creating a new resource.
-     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function create()
     {
-      return view('Producto.create');
+        return view('producto.create');
     }
 
     /**
@@ -43,28 +42,24 @@ class ProductoControl extends Controller
      */
     public function store(Request $request)
     {
-        $productos = new Producto();
-        $productos->placa = $request->get('placa');
-        $productos->tipo_material = $request->get('tipo_material');
-        $productos->cantidad = $request->get('cantidad');
-        $productos->precio = $request->get('precio');
-        $productos->comprador = $request->get('comprador');
+        $validator = Validator::make($request->all(), [
+            'placa' => 'required|string|max:255',
+            'tipo_material' => 'required|string|max:255',
+            'cantidad' => 'required|numeric|min:0',
+            'precio' => 'required|numeric|min:0',
+            'comprador' => 'required|string|max:255'
+        ]);
 
-        $productos->save();
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
 
-        return redirect('/productos');
+        Producto::create($request->all());
 
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
+        return redirect()->route('productos.index')
+            ->with('success', 'Producto creado exitosamente');
     }
 
     /**
@@ -73,10 +68,9 @@ class ProductoControl extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Producto $producto)
     {
-        $producto = Producto::find($id);
-        return view('Producto.edit')->with('producto', $producto);
+        return view('producto.edit', compact('producto'));
     }
 
     /**
@@ -86,25 +80,30 @@ class ProductoControl extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Producto $producto)
     {
-        $producto = Producto::find($id);
+        $validator = Validator::make($request->all(), [
+            'placa' => 'required|string|max:255',
+            'tipo_material' => 'required|string|max:255',
+            'cantidad' => 'required|numeric|min:0',
+            'precio' => 'required|numeric|min:0',
+            'comprador' => 'required|string|max:255'
+        ]);
 
-        $producto->placa = $request->get('placa');
-        $producto->tipo_material = $request->get('tipo_material');
-        $producto->cantidad = $request->get('cantidad');
-        $producto->precio = $request->get('precio');
-        $producto->comprador = $request->get('comprador');
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
 
+        $producto->update($request->all());
 
-        $producto->save();
-
-        return redirect('/productos');
+        return redirect()->route('productos.index')
+            ->with('success', 'Producto actualizado exitosamente');
     }
 
     /**
      * Remove the specified resource from storage.
-     *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */

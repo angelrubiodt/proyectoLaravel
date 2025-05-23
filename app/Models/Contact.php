@@ -5,16 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Cotizacion extends Model
+class Contact extends Model
 {
     use HasFactory;
 
-    protected $table = 'cotizaciones';
-
     protected $fillable = [
-        'origen',
-        'destino',
-        'email',
+        'nombre',
         'telefono',
+        'mensaje'
     ];
+
+    protected $table = 'contacts';
 }

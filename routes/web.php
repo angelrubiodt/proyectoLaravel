@@ -27,13 +27,31 @@ Route::middleware([
         return redirect()->route('productos.index');
     })->name('dashboard');
 
-    Route::resource('productos', 'App\Http\Controllers\ProductoControl');
+    Route::resource('productos', App\Http\Controllers\ProductoControl::class);
 });
 
-Auth::routes();
+Auth::routes(['register' => false]);
+
+// Ruta de registro protegida para administradores
+Route::middleware(['auth', 'admin.register'])->group(function () {
+    Route::get('register', [\App\Http\Controllers\Auth\RegisterController::class, 'showRegistrationForm'])->name('register');
+    Route::post('register', [\App\Http\Controllers\Auth\RegisterController::class, 'register']);
+});
+
+// Rutas de gestión de usuarios para administradores
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::resource('users', \App\Http\Controllers\Admin\UserController::class);
+    Route::get('newsletters', [\App\Http\Controllers\Admin\NewsletterController::class, 'index'])->name('newsletters.index');
+});
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::post('/contacto', [ContactoController::class, 'store'])->name('contacto.store');
 
-Route::post('/cotizacion', [App\Http\Controllers\CotizacionController::class, 'store'])->name('cotizacion.store');
+// Ruta para el newsletter
+Route::post('/newsletter', [\App\Http\Controllers\NewsletterController::class, 'store'])->name('newsletter.store');
+
+// Ruta para confirmar la suscripción al newsletter
+Route::get('/newsletter/confirm/{token}', [\App\Http\Controllers\NewsletterController::class, 'confirm'])->name('newsletter.confirm');
+
+
