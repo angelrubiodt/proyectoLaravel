@@ -34,18 +34,18 @@
         box-shadow: 0 3px 6px rgba(0,0,0,0.3);
         transform: translateY(-2px);
     }
-    
 
-    
+
+
     /* Estilos para el formulario de contacto */
     .contact {
         padding: 80px 0;
     }
-    
+
     .contact form {
         margin-top: 30px;
     }
-    
+
     .contact input,
     .contact textarea {
         width: 100%;
@@ -55,7 +55,7 @@
         margin-bottom: 15px;
         transition: all 0.3s ease;
     }
-    
+
     .contact input:focus,
     .contact textarea:focus {
         border-color: #007bff;
@@ -64,7 +64,7 @@
     }
 
 
-    
+
     /* Estilos para el newsletter */
     .newsletter {
         background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
@@ -130,7 +130,7 @@
         background: #0056b3;
         color: white;
         transform: translateY(-2px);
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        box-shadow: 6px 12px rgba(0, 0, 0, 0.2);
     }
 
     .newsletter-form button:active {
@@ -146,21 +146,21 @@
         border-radius: 10px;
         overflow: hidden;
     }
-    
+
     .service_box:hover {
         transform: translateY(-5px);
         box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     }
-    
+
     .service_box img {
         transition: all 0.3s ease;
         margin-bottom: 15px;
     }
-    
+
     .service_box:hover img {
         transform: scale(1.1);
     }
-    
+
     .service_box h4 {
         margin: 0;
         font-size: 1.2rem;
@@ -208,7 +208,7 @@
         transform: translateX(-50%);
         z-index: 10;
     }
-    
+
     .carousel-indicators li {
         width: 12px;
         height: 12px;
@@ -218,14 +218,14 @@
         cursor: pointer;
         transition: all 0.3s ease;
     }
-    
+
     .carousel-indicators li:hover,
     .carousel-indicators .active {
         background-color: #fff;
         width: 15px;
         height: 15px;
     }
-    
+
     .carousel-control-prev,
     .carousel-control-next {
         position: absolute;
@@ -239,21 +239,21 @@
         transition: all 0.3s ease;
         z-index: 10;
     }
-    
+
     .carousel-control-prev:hover,
     .carousel-control-next:hover {
         opacity: 1;
         background: rgba(0, 0, 0, 0.7);
     }
-    
+
     .carousel-control-prev {
         left: 20px;
     }
-    
+
     .carousel-control-next {
         right: 20px;
     }
-    
+
     .carousel-control-prev i,
     .carousel-control-next i {
         font-size: 24px;
@@ -290,7 +290,7 @@
                                 <div class="user-dropdown-menu" id="userDropdownMenu">
                                     @auth
                                         <a href="{{ url('/dashboard') }}" class="dropdown-item">Productos</a>
-                                        <a href="{{ route('logout') }}" 
+                                        <a href="{{ route('logout') }}"
                                            onclick="event.preventDefault();
                                            document.getElementById('logout-form').submit();"
                                            class="dropdown-item">Cerrar Sesión</a>
@@ -481,11 +481,6 @@
                             <p>Dejanos tus datos para que podamos contactarte</p>
 
                         </div>
-                        @if(session('success'))
-                            <div class="alert {{ session('success_class') }}">
-                                {{ session('success') }}
-                            </div>
-                        @endif
                         @if(session('error'))
                             <div class="alert {{ session('error_class') }}">
                                 {{ session('error') }}
@@ -527,7 +522,7 @@
                         <script>
                             document.getElementById('contactForm').addEventListener('submit', function(e) {
                                 e.preventDefault();
-                                
+
                                 Swal.fire({
                                     title: 'Enviando...',
                                     html: 'Por favor, espere...',
@@ -603,9 +598,9 @@
                     </div>
                     <div class="col-md-6">
                         <div class="co_tru">
-                            <figure>
-                                <img src="images/excavadoraVolqueta.png" alt="#" style="max-width: 100%; height: auto; border-radius: 10px;"/>
-                            </figure>
+                           <figure>
+                               <img src="{{ asset('images/excavadoraVolqueta.png') }}" alt="#" style="max-width: 100%; height: auto; border-radius: 10px;"/>
+                           </figure>
                         </div>
                     </div>
                 </div>
@@ -623,7 +618,12 @@
                     <div class="col-md-12">
                         <h2>¡Mantente al día con nuestras novedades!</h2>
                         <p>Recibe las últimas noticias sobre nuestros productos y servicios directamente en tu correo.</p>
-                        <form class="newsletter-form" action="{{ route('newsletter.store') }}" method="POST">
+                        @if(session('success'))
+                            <div class="alert {{ session('success_class') }}">
+                                {{ session('success') }}
+                            </div>
+                        @endif
+                        <form id="newsletterForm" class="newsletter-form" action="{{ route('newsletter.store') }}" method="POST">
                             @csrf
                             <input type="email" name="email" placeholder="Tu correo electrónico" required>
                             <button type="submit">Suscribirse</button>
@@ -633,4 +633,273 @@
             </div>
         </div>
         <!-- end newsletter -->
+
+        <!-- Añadimos los scripts de Leaflet al final del body -->
+        <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+           integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+           crossorigin=""></script>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // Inicialización de DataTables
+                new DataTable('#productos', {
+                    responsive: true,
+                    language: {
+                        processing:     "Procesando...",
+                        search:         "Buscar:",
+                        lengthMenu:     "Mostrar _MENU_ registros",
+                        info:           "Mostrando _START_ a _END_ de _TOTAL_ registros",
+                        infoEmpty:      "Mostrando 0 a 0 de 0 registros",
+                        infoFiltered:   "(filtrado de _MAX_ registros totales)",
+                        infoPostFix:    "",
+                        loadingRecords: "Cargando...",
+                        zeroRecords:    "No se encontraron resultados",
+                        emptyTable:     "No hay datos disponibles en la tabla",
+                        paginate: {
+                            first:      "Primero",
+                            previous:   "Anterior",
+                            next:       "Siguiente",
+                            last:       "Último"
+                        },
+                        aria: {
+                            sortAscending:  ": activar para ordenar la columna ascendente",
+                            sortDescending: ": activar para ordenar la columna descendente"
+                        }
+                    }
+                });
+
+                // Listeners para SweetAlert2 en formularios
+                $('#logout-button').on('click', function(e) {
+                    e.preventDefault();
+                    Swal.fire({
+                        title: '¿Estás seguro?',
+                        text: "¡Quieres cerrar sesión!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Sí, cerrar sesión',
+                        cancelButtonText: 'Cancelar'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $('#logout-form').submit(); // Envía el formulario de cierre de sesión
+                        }
+                    });
+                });
+
+                $('.formEliminar').submit(function(e){
+                    e.preventDefault();
+
+                    Swal.fire({
+                        title: '¿Estás seguro?',
+                        text: "¡No podrás revertir esto!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Sí, bórralo',
+                        cancelButtonText: 'Cancelar'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            this.submit();
+                        }
+                    })
+                });
+
+                // Inicialización de Leaflet Map
+                // Coordenadas aproximadas de Guayabal Tolima
+                const latitud = 4.6186;
+                const longitud = -74.6131;
+                const zoom = 13; // Nivel de zoom inicial
+
+                // Inicializar el mapa
+                const mymap = L.map('mapid').setView([latitud, longitud], zoom);
+
+                // Añadir la capa de tiles de OpenStreetMap
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                }).addTo(mymap);
+
+                // Añadir un marcador en la ubicación de Mina San Pedro
+                const marker = L.marker([latitud, longitud]).addTo(mymap);
+
+                // Opcional: Añadir un popup al marcador
+                marker.bindPopup("<b>Mina San Pedro</b><br>Guayabal Tolima").openPopup();
+            });
+        </script>
+
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script>
+            document.getElementById('newsletterForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                Swal.fire({
+                    title: 'Enviando...',
+                    html: 'Por favor, espere...',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+
+                const formData = new FormData(this);
+                fetch(this.action, {
+                    method: 'POST',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: formData
+                })
+                .then(async response => {
+                    let data;
+                    try {
+                        data = await response.json();
+                    } catch {
+                        data = null;
+                    }
+                    if (response.ok && data && data.status === 'success') {
+                        Swal.fire({
+                            icon: 'success',
+                            title: '¡Suscripción exitosa!',
+                            text: data.message,
+                            confirmButtonText: 'Aceptar',
+                            confirmButtonColor: '#3085d6'
+                        });
+                        this.reset();
+                    } else if (data && data.errors) {
+                        let errorText = '';
+                        Object.entries(data.errors).forEach(([field, messages]) => {
+                            errorText += `${messages[0]}\n`;
+                        });
+                        Swal.fire({
+                            icon: 'error',
+                            title: '¡Error!',
+                            text: errorText,
+                            confirmButtonText: 'Aceptar',
+                            confirmButtonColor: '#d33'
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: '¡Error!',
+                            text: 'Ha ocurrido un error inesperado. Por favor, inténtelo de nuevo.',
+                            confirmButtonText: 'Aceptar',
+                            confirmButtonColor: '#d33'
+                        });
+                    }
+                })
+                .catch(error => {
+                    Swal.fire({
+                        icon: 'error',
+                        title: '¡Error!',
+                        text: 'Ha ocurrido un error. Por favor, inténtelo de nuevo.',
+                        confirmButtonText: '¡Volver a intentar!',
+                        confirmButtonColor: '#f44336'
+                    });
+                });
+            });
+        </script>
+@endsection
+
+@section('css')
+<link href="https://cdn.datatables.net/2.1.8/css/dataTables.bootstrap5.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet">
+@endsection
+
+@section('js')
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+<script src="https://cdn.datatables.net/2.1.8/js/dataTables.bootstrap5.js"></script>
+
+<script>
+    new DataTable('#productos', {
+        responsive: true,
+        language: {
+            processing:     "Procesando...",
+            search:         "Buscar:",
+            lengthMenu:     "Mostrar _MENU_ registros",
+            info:           "Mostrando _START_ a _END_ de _TOTAL_ registros",
+            infoEmpty:      "Mostrando 0 a 0 de 0 registros",
+            infoFiltered:   "(filtrado de _MAX_ registros totales)",
+            infoPostFix:    "",
+            loadingRecords: "Cargando...",
+            zeroRecords:    "No se encontraron resultados",
+            emptyTable:     "No hay datos disponibles en la tabla",
+            paginate: {
+                first:      "Primero",
+                previous:   "Anterior",
+                next:       "Siguiente",
+                last:       "Último"
+            },
+            aria: {
+                sortAscending:  ": activar para ordenar la columna ascendente",
+                sortDescending: ": activar para ordenar la columna descendente"
+            }
+        }
+    });
+
+    $('#logout-button').on('click', function(e) {
+        e.preventDefault();
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: "¡Quieres cerrar sesión!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, cerrar sesión',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $('#logout-form').submit(); // Envía el formulario de cierre de sesión
+            }
+        });
+    });
+
+    $('.formEliminar').submit(function(e){
+        e.preventDefault();
+
+        Swal.fire({
+            title: '¿Estás seguro?',
+            text: "¡No podrás revertir esto!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, bórralo',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                this.submit();
+            }
+        })
+    });
+</script>
+
+<script>
+    @if(session('success'))
+        Swal.fire({
+            icon: 'success',
+            title: '¡Suscripción exitosa!',
+            text: '{{ session('success') }}',
+            confirmButtonText: 'Aceptar',
+            confirmButtonColor: '#3085d6'
+        });
+    @endif
+
+    @if($errors->has('email'))
+        Swal.fire({
+            icon: 'error',
+            title: '¡Error!',
+            text: '{{ $errors->first('email') }}',
+            confirmButtonText: 'Aceptar',
+            confirmButtonColor: '#d33'
+        });
+    @endif
+</script>
 @endsection

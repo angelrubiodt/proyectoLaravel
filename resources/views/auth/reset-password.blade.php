@@ -21,8 +21,8 @@
                             </ul>
                         </div>
                     @endif
-                    <form method="POST" action="{{ route('password.update') }}">
-                        @csrf
+        <form method="POST" action="{{ route('password.update') }}">
+            @csrf
                         <input type="hidden" name="token" value="{{ $token }}">
                         <div class="form-group mb-3" style="width: 100%;">
                             <label for="email" style="color: #333; font-weight: 500; margin-bottom: 6px; font-size: 0.98em;">Correo Electrónico</label>
@@ -54,7 +54,7 @@
                     </form>
                 </div>
             </div>
-        </div>
-    </div>
-</div>
+            </div>
+            </div>
+            </div>
 @endsection

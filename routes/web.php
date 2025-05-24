@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ContactoController;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,6 +19,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// Rutas de autenticación
+Auth::routes([
+    'register' => false,
+    'reset' => true,    // Habilitar recuperación de contraseña
+    'verify' => true    // Habilitar verificación de email
+]);
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
@@ -29,8 +37,6 @@ Route::middleware([
 
     Route::resource('productos', App\Http\Controllers\ProductoControl::class);
 });
-
-Auth::routes(['register' => false]);
 
 // Ruta de registro protegida para administradores
 Route::middleware(['auth', 'admin.register'])->group(function () {
